@@ -1,0 +1,5 @@
+User-agent: * 
+Allow: /
+Disallow: /thank_you
+
+Sitemap: https://vkusnieraki.ru/sitemap.xml

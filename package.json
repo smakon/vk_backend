@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/smakon/vkusnie_raki#readme",
+  "bugs": {
+    "url": "https://github.com/smakon/vkusnie_raki/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smakon/vkusnie_raki.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.5",
+    "path": "^0.12.7",
+    "path-to-regexp": "^8.3.0",
+    "pm2": "^5.4.2",
+    "sqlite3": "^5.1.7"
+  }
+}
