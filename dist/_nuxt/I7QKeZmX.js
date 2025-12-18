@@ -1,0 +1,1 @@
+import{i as e}from"#entry";import{u as t}from"./DQ-_PCGC.js";const a=async r=>{try{const o=e();return await t(`${o.public.apiBase}/productUpdate`,{method:"POST",body:r},"$e9LdMIqKhb")}catch(o){throw console.error("Ошибка при обновлении продукта:",o),o}};export{a as updateProduct};

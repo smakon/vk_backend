@@ -15,6 +15,8 @@ const db = new sqlite3.Database(
 app.use(cors())
 
 app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.json({ limit: '10mb' })); // парсит JSON
+app.use(express.urlencoded({ extended: true })); // для form data (опционально)
 
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, 'dist', 'index.html'))
@@ -39,6 +41,25 @@ app.get('/reviews', (req, res) => {
 		if (err) return res.status(500).send(err.message)
 		res.json(rows)
 	})
+})
+
+app.post('/productUpdate', (req, res) => {
+	if (!req.body) {
+		return res.status(400).json({ error: 'Тело запроса отсутствует' })
+	}
+	const { price, isThere, description, title, id } = req.body
+	if (typeof id === 'undefined') {
+		return res.status(400).json({ error: 'Не указан id продукта' })
+	}
+
+	db.run(
+		'UPDATE products SET price = ?, isThere = ?, description = ?, title = ? WHERE id = ?',
+		[price, isThere, description, title, id],
+		err => {
+			if (err) return res.status(500).send(err.message)
+			res.json({ message: 'Product updated successfully' })
+		}
+	)
 })
 
 const PORT = 8080 // 8080
