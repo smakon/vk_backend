@@ -3,6 +3,24 @@ const app = express()
 const cors = require('cors')
 const path = require('path')
 const sqlite3 = require('sqlite3').verbose()
+const nodemailer = require('nodemailer')
+
+// Настройка nodemailer для Mail.ru
+const transporter = nodemailer.createTransport({
+	host: 'smtp.mail.ru',
+	port: 465,
+	secure: true,
+	auth: {
+		user: 's-samik@inbox.ru',
+		pass: 'AZpjxtKnYlSWT6tkzaGi',
+	},
+})
+
+const mailOptions = {
+	from: 's-samik@inbox.ru',
+	to: 's-samik@inbox.ru',
+	subject: 'Новый заказ с сайта Вкусные раки',
+}
 
 const db = new sqlite3.Database(
 	path.join(__dirname, 'Database', 'vkusnie_raki.db'),
@@ -60,6 +78,41 @@ app.post('/productUpdate', (req, res) => {
 			res.json({ message: 'Product updated successfully' })
 		},
 	)
+})
+
+// Endpoint для отправки email на несколько адресов
+app.post('/send-email', (req, res) => {
+	const { message } = req.body
+	if (!message) {
+		return res.status(400).json({ error: 'Сообщение не указано' })
+	}
+
+	// Список email адресов для отправки
+	const emailRecipients = [
+		's-samik@inbox.ru',
+		'mnavoyan@yandex.ru',
+		'freetime34@inbox.ru',
+	]
+
+	// Отправляем письмо каждому получателю
+	emailRecipients.forEach(toEmail => {
+		const mailOptions = {
+			from: 's-samik@inbox.ru',
+			to: toEmail,
+			subject: 'Новый заказ с сайта Вкусные раки',
+			text: message,
+		}
+
+		transporter.sendMail(mailOptions, (err, info) => {
+			if (err) {
+				console.error(`Ошибка отправки email на ${toEmail}:`, err)
+			} else {
+				console.log(`Email отправлен на ${toEmail}:`, info.response)
+			}
+		})
+	})
+
+	res.json({ message: 'Email отправлен всем получателям' })
 })
 
 const PORT = 8080 // 8080
