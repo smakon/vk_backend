@@ -9,14 +9,14 @@ const db = new sqlite3.Database(
 	err => {
 		if (err) console.error('Ошибка при подключении к SQLite:', err.message)
 		else console.log('Connected to SQLite database')
-	}
+	},
 )
 
 app.use(cors())
 
 app.use(express.static(path.join(__dirname, 'dist')))
-app.use(express.json({ limit: '10mb' })); // парсит JSON
-app.use(express.urlencoded({ extended: true })); // для form data (опционально)
+app.use(express.json({ limit: '10mb' })) // парсит JSON
+app.use(express.urlencoded({ extended: true })) // для form data (опционально)
 
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, 'dist', 'index.html'))
@@ -58,12 +58,12 @@ app.post('/productUpdate', (req, res) => {
 		err => {
 			if (err) return res.status(500).send(err.message)
 			res.json({ message: 'Product updated successfully' })
-		}
+		},
 	)
 })
 
-const PORT = 8080 // 8080
-const HOST = '0.0.0.0' // 0.0.0.0
+const PORT = 2205 // 8080
+const HOST = 'localhost' // 0.0.0.0
 
 app.listen(PORT, HOST, () => {
 	console.log(`Server listening on http://${HOST}:${PORT}`)
