@@ -75,7 +75,7 @@ app.post('/productUpdate', (req, res) => {
 })
 
 // Endpoint для отправки email на несколько адресов
-app.post('/send-email', (req, res) => {
+app.post('/send-email', async (req, res) => {
 	const { message } = req.body
 	if (!message) {
 		return res.status(400).json({ error: 'Сообщение не указано' })
@@ -88,8 +88,10 @@ app.post('/send-email', (req, res) => {
 		'freetime34@inbox.ru',
 	]
 
-	// Отправляем письмо каждому получателю
-	emailRecipients.forEach(toEmail => {
+	const results = []
+	
+	// Отправляем письмо каждому получателю с ожиданием результата
+	for (const toEmail of emailRecipients) {
 		const mailOptions = {
 			from: 's-samik@inbox.ru',
 			to: toEmail,
@@ -97,16 +99,23 @@ app.post('/send-email', (req, res) => {
 			text: message,
 		}
 
-		transporter.sendMail(mailOptions, (err, info) => {
-			if (err) {
-				console.error(`Ошибка отправки email на ${toEmail}:`, err)
-			} else {
-				console.log(`Email отправлен на ${toEmail}:`, info.response)
-			}
-		})
-   })
+		try {
+			const info = await transporter.sendMail(mailOptions)
+			console.log(`Email отправлен на ${toEmail}:`, info.response)
+			results.push({ email: toEmail, success: true, info: info.response })
+		} catch (err) {
+			console.error(`Ошибка отправки email на ${toEmail}:`, err.message)
+			results.push({ email: toEmail, success: false, error: err.message })
+		}
+	}
 
-	res.json({ message: 'Email отправлен всем получателям' })
+	// Проверяем есть ли хоть какие-то успешные отправки
+	const successfulSends = results.filter(r => r.success)
+	if (successfulSends.length > 0) {
+		res.json({ message: 'Email отправлен', results })
+	} else {
+		res.status(500).json({ error: 'Не удалось отправить никому', results })
+	}
 })
 
 const PORT = 8080 // 8080
