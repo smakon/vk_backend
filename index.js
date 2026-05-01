@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 	secure: true,
 	auth: {
 		user: 's-samik@inbox.ru',
-		pass: 'AZpjxtKnYlSWT6tkzaGi',
+		pass: 'wLOuqVl4kDHzcoszZVga',
 	},
 })
 
@@ -89,35 +89,23 @@ app.post('/send-email', (req, res) => {
 	]
 
 	// Отправляем письмо каждому получателю
-	// emailRecipients.forEach(toEmail => {
-	// 	const mailOptions = {
-	// 		from: 's-samik@inbox.ru',
-	// 		to: toEmail,
-	// 		subject: 'Новый заказ с сайта Вкусные раки',
-	// 		text: message,
-	// 	}
-
-	// 	transporter.sendMail(mailOptions, (err, info) => {
-	// 		if (err) {
-	// 			console.error(`Ошибка отправки email на ${toEmail}:`, err)
-	// 		} else {
-	// 			console.log(`Email отправлен на ${toEmail}:`, info.response)
-	// 		}
-	// 	})
-   // })
-   const mailOptions = {
+	emailRecipients.forEach(toEmail => {
+		const mailOptions = {
 			from: 's-samik@inbox.ru',
-			to: 's-samik@inbox.ru',
+			to: toEmail,
 			subject: 'Новый заказ с сайта Вкусные раки',
 			text: message,
 		}
-	transporter.sendMail(mailOptions, (err, info) => {
-		if (err) {
-			console.error(`Ошибка отправки email на ${toEmail}:`, err)
-		} else {
-			console.log(`Email отправлен на ${toEmail}:`, info.response)
-		}
-	})
+
+		transporter.sendMail(mailOptions, (err, info) => {
+			if (err) {
+				console.error(`Ошибка отправки email на ${toEmail}:`, err)
+			} else {
+				console.log(`Email отправлен на ${toEmail}:`, info.response)
+			}
+		})
+   })
+
 	res.json({ message: 'Email отправлен всем получателям' })
 })
 
