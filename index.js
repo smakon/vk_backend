@@ -112,11 +112,6 @@ app.post('/send-email', async (req, res) => {
 	// Проверяем есть ли хоть какие-то успешные отправки
 	const successfulSends = results.filter(r => r.success)
 	if (successfulSends.length > 0) {
-		res.json({ message: 'Email отправлен', results })
-	} else {
-		res.status(500).json({ error: 'Не удалось отправить никому', results })
-	}
-})
 
 const PORT = 8080 // 8080
 const HOST = '0.0.0.0' // 0.0.0.0
