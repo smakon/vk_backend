@@ -16,12 +16,6 @@ const transporter = nodemailer.createTransport({
 	},
 })
 
-const mailOptions = {
-	from: 's-samik@inbox.ru',
-	to: 's-samik@inbox.ru',
-	subject: 'Новый заказ с сайта Вкусные раки',
-}
-
 const db = new sqlite3.Database(
 	path.join(__dirname, 'Database', 'vkusnie_raki.db'),
 	err => {
@@ -95,23 +89,35 @@ app.post('/send-email', (req, res) => {
 	]
 
 	// Отправляем письмо каждому получателю
-	emailRecipients.forEach(toEmail => {
-		const mailOptions = {
+	// emailRecipients.forEach(toEmail => {
+	// 	const mailOptions = {
+	// 		from: 's-samik@inbox.ru',
+	// 		to: toEmail,
+	// 		subject: 'Новый заказ с сайта Вкусные раки',
+	// 		text: message,
+	// 	}
+
+	// 	transporter.sendMail(mailOptions, (err, info) => {
+	// 		if (err) {
+	// 			console.error(`Ошибка отправки email на ${toEmail}:`, err)
+	// 		} else {
+	// 			console.log(`Email отправлен на ${toEmail}:`, info.response)
+	// 		}
+	// 	})
+   // })
+   const mailOptions = {
 			from: 's-samik@inbox.ru',
-			to: toEmail,
+			to: 'mnavoyan@yandex.ru',
 			subject: 'Новый заказ с сайта Вкусные раки',
 			text: message,
 		}
-
-		transporter.sendMail(mailOptions, (err, info) => {
-			if (err) {
-				console.error(`Ошибка отправки email на ${toEmail}:`, err)
-			} else {
-				console.log(`Email отправлен на ${toEmail}:`, info.response)
-			}
-		})
+	transporter.sendMail(mailOptions, (err, info) => {
+		if (err) {
+			console.error(`Ошибка отправки email на ${toEmail}:`, err)
+		} else {
+			console.log(`Email отправлен на ${toEmail}:`, info.response)
+		}
 	})
-
 	res.json({ message: 'Email отправлен всем получателям' })
 })
 
