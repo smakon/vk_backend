@@ -89,7 +89,7 @@ app.post('/send-email', async (req, res) => {
 	]
 
 	const results = []
-	
+
 	// Отправляем письмо каждому получателю с ожиданием результата
 	for (const toEmail of emailRecipients) {
 		const mailOptions = {
@@ -112,7 +112,8 @@ app.post('/send-email', async (req, res) => {
 	// Проверяем есть ли хоть какие-то успешные отправки
 	const successfulSends = results.filter(r => r.success)
 	if (successfulSends.length > 0) {
-
+	}
+})
 const PORT = 8080 // 8080
 const HOST = '0.0.0.0' // 0.0.0.0
 
