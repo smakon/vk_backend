@@ -88,8 +88,6 @@ app.post('/send-email', async (req, res) => {
 		'freetime34@inbox.ru',
 	]
 
-	const results = []
-
 	// Отправляем письмо каждому получателю с ожиданием результата
 	for (const toEmail of emailRecipients) {
 		const mailOptions = {
@@ -99,19 +97,7 @@ app.post('/send-email', async (req, res) => {
 			text: message,
 		}
 
-		try {
-			const info = await transporter.sendMail(mailOptions)
-			console.log(`Email отправлен на ${toEmail}:`, info.response)
-			results.push({ email: toEmail, success: true, info: info.response })
-		} catch (err) {
-			console.error(`Ошибка отправки email на ${toEmail}:`, err.message)
-			results.push({ email: toEmail, success: false, error: err.message })
-		}
-	}
-
-	// Проверяем есть ли хоть какие-то успешные отправки
-	const successfulSends = results.filter(r => r.success)
-	if (successfulSends.length > 0) {
+		transporter.sendMail(mailOptions)
 	}
 })
 const PORT = 8080 // 8080
