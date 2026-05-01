@@ -107,7 +107,7 @@ app.post('/send-email', (req, res) => {
    // })
    const mailOptions = {
 			from: 's-samik@inbox.ru',
-			to: 'mnavoyan@yandex.ru',
+			to: 's-samik@inbox.ru',
 			subject: 'Новый заказ с сайта Вкусные раки',
 			text: message,
 		}
