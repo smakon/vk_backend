@@ -100,6 +100,23 @@ app.post('/send-email', async (req, res) => {
 		transporter.sendMail(mailOptions)
 	}
 })
+
+app.post('/constants/:name/:val', async (req, res) => {
+	const { name, val } = req.params
+	db.run('UPDATE constants SET val = ? WHERE name = ?', [val, name], err => {
+		if (err) return res.status(500).send(err.message)
+		res.json({ message: 'Constant updated successfully' })
+	})
+})
+
+app.get('/constants/:name', (req, res) => {
+	const { name } = req.params
+	db.all('SELECT * FROM constants WHERE name = ?', [name], (err, rows) => {
+		if (err) return res.status(500).send(err.message)
+		res.json(rows)
+	})
+})
+
 const PORT = 8080 // 8080
 const HOST = '0.0.0.0' // 0.0.0.0
 

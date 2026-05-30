@@ -1,0 +1,1 @@
+import{j as a}from"#entry";import{u as o}from"./DRiW_bMt.js";async function r(){const t=a(),{data:n}=await o(`${t.public.apiBase}/constants/clickOnContact`,"$uFWNXO-ZUR");return n}const u=async(t,n)=>{const c=a(),{data:s}=await o(`${c.public.apiBase}/constants/${t}/${n}`,{method:"POST",headers:{Authorization:"Bearer YOUR_TOKEN"}},"$JmU0oYt1W7");return s};export{u as i,r as u};
