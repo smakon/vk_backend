@@ -117,8 +117,8 @@ app.get('/constants/:name', (req, res) => {
 	})
 })
 
-const PORT = 8080 // 8080
-const HOST = '0.0.0.0' // 0.0.0.0
+const PORT = 2205 // 8080
+const HOST = 'localhost' // 0.0.0.0
 
 app.listen(PORT, HOST, () => {
 	console.log(`Server listening on http://${HOST}:${PORT}`)
